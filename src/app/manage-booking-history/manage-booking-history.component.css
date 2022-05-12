@@ -1,0 +1,104 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+  } 
+
+  .mat-header-cell {
+      background-color: black;
+      color:white;
+  }
+  *{
+    box-sizing: border-box;
+     
+  }
+  form{ 
+    margin: 20px; 
+    background: #fff;
+  }
+  
+   label{
+     float: left;
+   }
+   
+  .page {
+    color: white;
+    padding: 0 1rem;
+    background: #f1f5f9;
+  }
+  .page__box {
+    min-height: 120px;
+    background: #1e293b;
+    margin: 0 -1rem;
+    font-size: 36px;
+  }
+  .page__content {
+    min-height: calc(100vh - 178px);
+    border-radius: 10px;
+    margin-top: -2rem;
+    background: white;
+    color: black;
+    font-size: 2rem;
+  }
+  .page__content-data {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .mat-column-totalseat {
+    flex: none;
+    width: 10%;
+}
+.mat-column-cost {
+  flex: none;
+  width: 10%;
+}
+
+.mat-column-airlineName {
+  flex: none;
+  width: 12%;
+}
+
+.mat-column-name {
+  flex: none;
+  width: 18%;
+}
+
+.mat-column-ufromplace {
+  flex: none;
+  width: 18%;
+}
+
+.mat-column-utoplace {
+  flex: none;
+  width: 18%;
+}
+
+
+.mat-column-seatno {
+  flex: none;
+  width: 7%;
+}
+
+.mat-column-age {
+  flex: none;
+  width: 5%;
+}
+
+.mat-column-gender {
+  flex: none;
+  width: 8%;
+}
+
+.mat-column-meal {
+  flex: none;
+  width: 8%;
+}

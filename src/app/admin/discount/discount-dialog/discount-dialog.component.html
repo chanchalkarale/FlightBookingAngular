@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Add Discount</h1>
+<div mat-dialog-content>
+    <form [formGroup]="discountForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Discount Code</mat-label>
+        <input formControlName="discountCode" matInput placeholder="Enter code">
+        <mat-icon matSuffix>code</mat-icon>
+        <mat-hint>DISC001</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Amount</mat-label>
+        <input formControlName="discountCost" matInput type="number" class="example-right-align" placeholder="0">
+        <span matPrefix>$&nbsp;</span>
+        <span matSuffix>.00</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input formControlName="expiryDate" matInput [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]  ="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+<button mat-raised-button color="warn" mat-dialog-close>Close</button>
+<button mat-raised-button style="margin-left:8px;" color="primary" (click)="AddDiscount()">{{btnTxt}}</button>
+</div>

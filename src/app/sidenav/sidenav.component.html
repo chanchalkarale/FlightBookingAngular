@@ -1,0 +1,35 @@
+<mat-nav-list>
+    <div class="logo py-4">
+      <img src="./assets/logo.png" alt="Company Logo" height="18px;"/>
+    </div>
+    <mat-divider></mat-divider>
+    <h2 matSubheader class="mt-2">APPLICATIONS</h2>
+  
+  
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="flight">
+      <mat-icon>flight_takeoff</mat-icon> Flight
+    </a> 
+    
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="manage">
+      <mat-icon>border_color</mat-icon> Manage Booking
+    </a>
+
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="history">
+      <mat-icon>history</mat-icon> Booking History
+    </a>
+
+
+    <!-- <a mat-list-item routerLinkActive="list-item-active" routerLink="demo" *ngIf="isAdmin">
+       <mat-icon>edit</mat-icon>Demo
+    </a> -->
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="airlineDetails" *ngIf="isAdmin">
+      <mat-icon>flight</mat-icon> Airline
+    </a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="schedule" *ngIf="isAdmin">
+       <mat-icon>schedule</mat-icon> Schedule 
+    </a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="discount" *ngIf="isAdmin">
+      <mat-icon>money_off</mat-icon> Discount 
+   </a>
+     
+  </mat-nav-list>

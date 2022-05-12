@@ -1,0 +1,176 @@
+ 
+<div class="container-fluid page">
+    <div class="d-flex page__box p-3 mt-2">Schedule</div>
+    <div class="page__content shadow p-3 position-relative">
+       
+       
+        <div *ngIf="detailsTab == 1" class="table-responsive-sm" style="margin-top:10px;">
+            <div class="modal-header">
+                <h2 id="modal-basic-title" class="headingCss">Airline flights details</h2> 
+                <button class="btn btn-primary btnCss" (click)="OpenAddModal()" style="margin-bottom: 10px;float:right;">Add</button>
+              </div> 
+           
+            <table hover="true" striped="true" class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                <tr>
+                  <th>Flight Number</th>
+                  <th>Airline</th>
+                  <th>From Place</th>
+                  <th>To Place</th>
+                  <th>Depart</th>
+                  <th>Arrival</th>
+          
+                  <th>B Seats</th>
+                  <th>Eco Seats</th>
+                  <th>B Cost</th>
+                  <th>Eco Cost</th>
+                  <th>Seat Row</th>
+                  <th>Meal</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let flight of flightData">
+                  <td><span>{{flight.flightNumber}}</span></td>
+                  <td><span>{{flight.airline}}</span></td>
+                  <td><span>{{flight.fromPlaceName}}</span></td>
+                  <td><span>{{flight.toPlaceName}}</span></td>
+                  <td><span>{{flight.flightStartDateTime}}</span></td>
+                  <td><span>{{flight.flightToDateTime}}</span></td>
+          
+                  <td><span>{{flight.totalBusinessSeats}}</span></td>
+                  <td><span>{{flight.totalNonBusinessSeats}}</span></td>
+                  <td><span>{{flight.busTicketCost}}</span></td>
+                  <td><span>{{flight.nonBusTicketCost}}</span></td>
+                  <td><span>{{flight.flightSeatRow}}</span></td>
+                  <td><span>{{flight.meal}}</span></td>
+                  <td>
+                    <button class="btn" (click)="DeleteFlightSchedule(flight.flightId)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button class="btn" (click)="EditFlightSchedule(flight)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                      <!-- <input type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="Edit" (click)="EditFlightSchedule(flight)" class="btn btn-primary" />
+                      <input type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"   (click)="DeleteFlightSchedule(flight.flightId)" class="btn btn-primary" /> -->
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+        </div>
+        <div *ngIf="addTab == 1"> 
+            <div class="modal-header">
+                <h4 class="headingCss" id="modal-basic-title">Add Airline Details</h4> 
+                <button class="btn btn-primary btnCss" (click)="Back()" style="margin-bottom: 20px;float:right;">Back</button>
+              </div> 
+                <div class="modal-body">    
+                           <form name="form" #form="ngForm" [formGroup]="scheduleFormGrp" (ngSubmit)="onSubmit()">
+                               <div>
+                                   <div class="form-row">
+                                       <div class="form-group col-md-6">
+                                           <label class="bold-type" for="DDAirline">Airline</label><br>
+                                           <select class="custom-select"  [(ngModel)]="selectedAirline" formControlName="DDAirline" >
+                                               <option [ngValue]="-1" class="text-primary font-weight-bolder">
+                                                   --- Select Airline ---
+                                               </option>
+                                               <option *ngFor="let airvalu of airlines" [ngValue]= "airvalu.airlineId" >
+                                                   {{airvalu.airlineName}}
+                                               </option>
+                                           </select>
+                                           <!-- Required Validation Message -->
+                                           <!-- <div *ngIf="form.submitted && DDAirline.invalid" class="text-danger">
+                                               <h6 *ngIf="DDAirline.errors">Select Airline</h6>
+                                           </div> -->
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                           <!-- <label for="to" class="bold-type">Flight Number : {{flightNumber}} </label> -->
+                                           <label for="from" class="bold-type">Flight Number </label>
+                                           <input class="form-control"  [disabled]="disableAirlineDD" formControlName="flightNumber" type="text" name="flightNumber"
+                                               maxlength="100" placeholder="Flight No.">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div>
+                                   <div class="form-row">
+                                       <div class="form-group col-md-6">
+                                           <label for="from" class="bold-type">From </label>
+                                           <input class="form-control" formControlName="fromPlace" type="text" name="from"
+                                               maxlength="100" placeholder="City name">
+        
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                           <label for="to" class="bold-type">To </label>
+                                           <input class="form-control" type="text" formControlName="toPlace" name="to"
+                                               maxlength="100" placeholder="City name">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div>
+                                   <div class="form-row">
+                                       <div class="form-group col-md-6">
+                                           <label for="depart" style="float: left;" class="bold-type">Departure on</label>
+                                           <input class="form-control" placeholder="Pick a date" formControlName="departTime" type="datetime-local"
+                                               name="depart" />
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                           <label for="return" style="float: left;" class="bold-type">Arrival on</label>
+                                           <input class="form-control" placeholder="Pick a date" formControlName="arrivalTime" type="datetime-local"
+                                               name="return" />
+                                       </div>
+                                   </div>
+                               </div>
+                               <div>
+                                   <div class="form-row">
+                                       <div class="form-group col-md-6">
+                                           <label for="Business" class="bold-type">Business seats </label>
+                                           <input class="form-control" type="number" formControlName="bussinessSeats" min="1"
+                                               step="any" name="Business" placeholder="Seats">
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                           <label for="Eco" class="bold-type">Economy seats </label>
+                                           <input class="form-control" type="number" formControlName="ecoSeats" name="Eco" min="1"
+                                               step="any" maxlength="2" placeholder="Seats">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div>
+                                   <div class="form-row">
+                                       <div class="form-group col-md-6">
+                                           <label for="BusinessCost" class="bold-type">Business Cost </label>
+                                           <input class="form-control" type="number" formControlName="bussinessCost" min="0.00"
+                                               max="10000.00" step="0.01" name="BusinessCost" placeholder="Cost">
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                           <label for="EcoCost" class="bold-type">Economy Cost </label>
+                                           <input class="form-control" type="number" formControlName="ecoCost" name="EcoCost"
+                                               min="0.00" max="10000.00" step="0.01" placeholder="Cost">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div>
+                                   <div class="form-row">
+                                       <div class="form-group col-md-6">
+                                           <label for="SeatRows" class="bold-type">Seat Rows </label>
+                                           <input class="form-control" type="number" formControlName="seatRows" min="1" max="100"
+                                               step="any" placeholder="Seat Rows">
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                           <label for="EcoCost" class="bold-type">Meal </label>
+                                           <select class="custom-select" [(ngModel)]="selectedMeal" formControlName="selMeal">
+                                               <option [ngValue]="-1" selected disabled>Select Meal</option>
+                                               <option *ngFor="let mealVal of mealTypeArray" [ngValue]="mealVal.mealId">
+                                                   {{mealVal.mealType}}</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                               </div>
+                               <hr>
+                               <button type="submit" class="btn btn-info btnCss">Save</button>
+                           </form>
+                 </div>
+                       
+                </div>
+   
+</div>
+</div> 
+ 

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Add Airline</h1>
+<div mat-dialog-content>
+    <form [formGroup]="airlineForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Airline Name</mat-label>
+        <input formControlName="airlineName" matInput placeholder="Enter airline name">
+        <mat-icon matSuffix>airplanemode_active</mat-icon>
+        <mat-hint>AIR-ASIA</mat-hint>
+      </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+<button mat-raised-button color="warn" mat-dialog-close>Close</button>
+<button mat-raised-button style="margin-left:8px;" color="primary" (click)="AddAirline()">Save</button>
+</div>

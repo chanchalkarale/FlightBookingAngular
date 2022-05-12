@@ -1,0 +1,148 @@
+<h1 mat-dialog-title>Book Flight</h1>
+<div mat-dialog-content >
+    <form [formGroup]="bookingForm">
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>User Name</mat-label>
+            <input formControlName="userNameFormControl" matInput placeholder="Enter user-name">
+            <mat-icon matSuffix>person</mat-icon> 
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"style="margin-left: 80px;">
+            <mat-label>Email</mat-label>
+            <input formControlName="emailFormControl" matInput type="email" class="example-right-align" placeholder="Enter email-id">
+              
+          </mat-form-field>
+
+      </div>
+      <div> 
+          <mat-form-field appearance="outline">
+            <mat-label>Select Gender</mat-label>
+            <mat-select formControlName="genderFormControl"  name="genderClass">
+              <mat-option value="0">Male</mat-option>
+              <mat-option value="1">Female</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="margin-left: 80px;">
+            <mat-label>Age</mat-label>
+            <input formControlName="ageFormControl" matInput type="number" class="example-right-align" placeholder="Enter age">
+             
+          </mat-form-field>
+
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Seat No.</mat-label>
+            <input formControlName="seatNoFormControl" matInput type="number" min="1" class="example-right-align" placeholder="Enter seat no.">
+             
+          </mat-form-field>
+ 
+          <mat-form-field appearance="outline" style="margin-left: 80px;">
+            <mat-label>Select Meal</mat-label>
+            <mat-select formControlName="mealFormControl"  name="mealClass">
+              <mat-option value="0">none</mat-option>
+              <mat-option value="1">Veg</mat-option>
+              <mat-option value="2">Non-Veg</mat-option>
+            </mat-select>
+          </mat-form-field> 
+      </div>
+      <div *ngIf="userDetailsArray.length==0?false:true">
+        <mat-form-field appearance="outline" >
+          <mat-label>Apply discount</mat-label>
+          <input formControlName="discountCodeFormControl" matInput placeholder="Enter promo code.">
+          <mat-icon matSuffix>code</mat-icon> 
+        </mat-form-field>
+        <button type="button" mat-raised-button style="margin-left:8px;" color="primary" (click)="AppyDiscount()">Apply</button>
+        <div>
+        <label style="color:green;">{{appyDiscountError}}</label>
+      </div>
+      </div>
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+  <div>
+    <label>Total Amount : {{totalAmount}}</label>
+  </div>
+    <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+    <button mat-raised-button style="margin-left:8px;" color="primary" (click)="AddBookUserDetails()">Add</button>
+    </div>
+    <hr>
+
+<!-- User add list for save -->
+ 
+    <div  class="table-responsive-sm" style="margin-top:10px;">
+      
+      <div class="container">
+        <div style="margin-top: 10px;">
+          <div mat-dialog-action [align]="'end'"> 
+            <button mat-raised-button style="margin-left:8px;" color="primary" (click)="SaveFlightBookingDetails()">Save</button>
+        </div>
+          <mat-form-field appearance="standard">
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search here...." #input>
+          </mat-form-field>
+          
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+          
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NAME</th>
+                <td mat-cell *matCellDef="let row"> {{row.UserName}} </td>
+              </ng-container>
+
+              <!-- ID Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> EMAIL</th>
+                <td mat-cell *matCellDef="let row"> {{row.UserEmail}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="gender">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> GENDER </th>
+                  <td mat-cell *matCellDef="let row">{{resolveEnumGender(row.Gender)}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="age">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>  AGE </th>
+                  <td mat-cell *matCellDef="let row"> {{row.Age}} </td>
+                </ng-container> 
+
+                <ng-container matColumnDef="seatnumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>  SEAT NO. </th>
+                  <td mat-cell *matCellDef="let row"> {{row.SeatNumber}} </td>
+                </ng-container> 
+
+                <ng-container matColumnDef="meal">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>  MEAL </th>
+                  <td mat-cell *matCellDef="let row"> {{resolveEnumMeal(row.Meal)}} </td>
+                </ng-container> 
+
+                 <!--Action -->
+                 <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                  <td mat-cell *matCellDef="let row">  
+                    <button mat-icon-button color="warn" (click)="RemoveUserDetails(row)" style="margin-right:10px;">
+                      <mat-icon>delete</mat-icon>
+                   </button>
+                  </td>
+                </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">Flight not found "{{input.value}}"</td>
+              </tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+          </div>
+          
+           
+        </div>
+      </div>
+    </div>
+  
+   
+    
