@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { FlightBookingUser } from 'src/app/_models/flight-booking-user.model';
 import { FlightBookingmodel } from 'src/app/_models/flight-bookingmodel.model';
@@ -8,6 +8,7 @@ import { FlightbookingService } from 'src/app/_services/flightbooking.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { FlightbookingComponent } from '../flightbooking.component';
 
 @Component({
   selector: 'app-flightbookingdialog',
@@ -40,7 +41,8 @@ export class FlightbookingdialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public editBookingData:any,
   private toaster:ToastrService,
   private formBuilder:FormBuilder,
-  private flightBookingService:FlightbookingService,) { }
+  private flightBookingService:FlightbookingService,
+  private dialogRef:MatDialogRef<FlightbookingComponent>) { }
 
   ngOnInit(): void {
 
@@ -122,6 +124,8 @@ export class FlightbookingdialogComponent implements OnInit {
      this.flightBookingService.InsertFlightBookingDetails(this.flightBookingModel).subscribe({
        next:(res)=>{
           console.log("Ret Next : "+JSON.stringify(res));
+          this.toaster.success("Successfully flight booked.")
+          this.dialogRef.close('save');
        },
        error:(e)=>
        {
